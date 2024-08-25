@@ -14,10 +14,13 @@ function makePosterURL(posterPath: string): string {
 	return `https://image.tmdb.org/t/p/w300${posterPath}`;
 }
 
-function patchPosterURLs(movies: Movie[]): Movie[] {
-	return movies.map(
-		(movie: Movie) => ({ ...movie, poster_path: movie.poster_path ? makePosterURL(movie.poster_path) : movie.poster_path })
-	);
+function patchPosterURL(movie: Movie): Movie {
+	return {
+		...movie,
+		poster_path: movie.poster_path
+			? makePosterURL(movie.poster_path)
+			: movie.poster_path,
+	};
 }
 
 async function fetchMovies(page: number): Promise<Movie[]> {
@@ -36,7 +39,7 @@ async function fetchMovies(page: number): Promise<Movie[]> {
 
 	pageSizeCache[page] = data.results.length;
 
-	return patchPosterURLs(data.results);
+	return data.results.map(patchPosterURL);
 }
 
 function createMoviesStore() {
