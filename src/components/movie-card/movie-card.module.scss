@@ -1,0 +1,18 @@
+.title {
+	text-align: center;
+}
+
+.details {
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	gap: 20px;
+
+	@media (max-width: 768px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.poster {
+	justify-self: center;
+	border-radius: 6px;
+}

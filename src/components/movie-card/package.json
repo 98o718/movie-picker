@@ -1,0 +1,5 @@
+{
+	"private": true,
+	"main": "movie-card",
+	"typings": "movie-card.tsx"
+}
