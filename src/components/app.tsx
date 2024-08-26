@@ -3,6 +3,7 @@ import { type JSX } from 'solid-js';
 import { Header } from './header';
 import { MovieSection } from './movie-section';
 import { PickerSection } from './picker-section';
+import { FiltersSection } from './filters-section';
 
 export function App(): JSX.Element {
 
@@ -10,6 +11,7 @@ export function App(): JSX.Element {
 		<>
 			<Header/>
 			<main>
+				<FiltersSection/>
 				<PickerSection/>
 				<MovieSection/>
 			</main>

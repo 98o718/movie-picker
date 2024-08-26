@@ -4,7 +4,11 @@ import {
 	batch,
 	createEffect,
 	createResource,
+	on,
+	createComputed,
 } from "solid-js";
+
+import { filtersStore, Language } from './filters';
 
 export interface Movie {
 	id: number;
@@ -26,14 +30,20 @@ function patchPosterURL(movie: Movie): Movie {
 	};
 }
 
-async function fetchMovies(page: number): Promise<Movie[]> {
+async function fetchMovies(
+	[page, year, language]: readonly [number, number?, Language?]
+): Promise<Movie[]> {
+	if (year === undefined || language === undefined) {
+		return [];
+	}
+
 	const url = new URL('https://api.themoviedb.org/3/discover/movie');
 
 	url.searchParams.append('page', String(page));
-	url.searchParams.append('primary_release_year', '1990');
+	url.searchParams.append('primary_release_year', String(year));
 	url.searchParams.append('sort_by', 'vote_count.desc');
 	url.searchParams.append('vote_count.gte', '500');
-	// url.searchParams.append('language', 'ru-RU');
+	url.searchParams.append('language', language);
 
 	const response = await fetch(
 		url,
@@ -48,8 +58,10 @@ async function fetchMovies(page: number): Promise<Movie[]> {
 function createMoviesStore() {
 	const [page, setPage] = createSignal(1);
 
+	const { year, language } = filtersStore;
+
 	const [moviesOnPage] = createResource(
-		page,
+		() => [page(), year(), language()] as const,
 		fetchMovies
 	);
 
@@ -70,6 +82,15 @@ function createMoviesStore() {
 	})
 
 	const [index, setIndex] = createSignal(0);
+
+	createComputed(on(
+		() => [year(), language()],
+		() => batch(() => {
+			setMovies([]);
+			setPage(1);
+			setIndex(0);
+		})
+	));
 
 	const incrementPage = () => setPage(p => ++p);
 
