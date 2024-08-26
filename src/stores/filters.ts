@@ -5,12 +5,12 @@ export const enum Language {
 	ENG = 'en-Us',
 }
 
-const minYear = 1970;
+const minYear = 1920;
 const maxYear = new Date().getFullYear();
 
 export const availableYears = Array.from(
 	{ length: maxYear - minYear + 1 },
-	(_, index) => index + minYear
+	(_, index) => maxYear - index
 );
 
 export const availableLanguages = [
