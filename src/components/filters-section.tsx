@@ -13,6 +13,8 @@ export function FiltersSection(): JSX.Element {
 		setYear,
 		language,
 		setLanguage,
+		shouldShowOnlyPopular,
+		setShouldShowOnlyPopular,
 	} = filtersStore;
 
 	const handleYearChange = (event: Event & { currentTarget: HTMLSelectElement }) => {
@@ -21,6 +23,10 @@ export function FiltersSection(): JSX.Element {
 
 	const handleLanguageChange = (event: Event & { currentTarget: HTMLSelectElement }) => {
 		setLanguage(event.currentTarget.value as Language);
+	};
+
+	const handleOnlyPopularShowingChange = (event: Event & { currentTarget: HTMLInputElement }) => {
+		setShouldShowOnlyPopular(event.currentTarget.checked);
 	};
 
 	return (
@@ -43,6 +49,10 @@ export function FiltersSection(): JSX.Element {
 					</For>
 				</select>
 			</div>
+			<label>
+				<input type="checkbox" checked={ shouldShowOnlyPopular() } onChange={ handleOnlyPopularShowingChange }/>
+				Show only popular
+			</label>
 		</section>
 	);
 }

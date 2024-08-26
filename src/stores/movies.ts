@@ -10,6 +10,13 @@ import {
 
 import { filtersStore, Language } from './filters';
 
+interface MoviesFetcherParams {
+	page: number;
+	year: number;
+	language: Language;
+	shouldShowOnlyPopular: boolean;
+}
+
 export interface Movie {
 	id: number;
 	title: string;
@@ -30,20 +37,24 @@ function patchPosterURL(movie: Movie): Movie {
 	};
 }
 
-async function fetchMovies(
-	[page, year, language]: readonly [number, number?, Language?]
-): Promise<Movie[]> {
-	if (year === undefined || language === undefined) {
-		return [];
-	}
+async function fetchMovies(params: MoviesFetcherParams): Promise<Movie[]> {
+	const {
+		page,
+		year,
+		language,
+		shouldShowOnlyPopular,
+	} = params;
 
 	const url = new URL('https://api.themoviedb.org/3/discover/movie');
 
 	url.searchParams.append('page', String(page));
 	url.searchParams.append('primary_release_year', String(year));
 	url.searchParams.append('sort_by', 'vote_count.desc');
-	url.searchParams.append('vote_count.gte', '500');
 	url.searchParams.append('language', language);
+
+	if (shouldShowOnlyPopular) {
+		url.searchParams.append('vote_count.gte', '500');
+	}
 
 	const response = await fetch(
 		url,
@@ -58,10 +69,23 @@ async function fetchMovies(
 function createMoviesStore() {
 	const [page, setPage] = createSignal(1);
 
-	const { year, language } = filtersStore;
+	const {
+		year,
+		language,
+		shouldShowOnlyPopular,
+	} = filtersStore;
+
+	const filters = () => ({
+		year: year(),
+		language: language(),
+		shouldShowOnlyPopular: shouldShowOnlyPopular(),
+	});
 
 	const [moviesOnPage] = createResource(
-		() => [page(), year(), language()] as const,
+		() => ({
+			page: page(),
+			...filters(),
+		}),
 		fetchMovies
 	);
 
@@ -84,7 +108,7 @@ function createMoviesStore() {
 	const [index, setIndex] = createSignal(0);
 
 	createComputed(on(
-		() => [year(), language()],
+		filters,
 		() => batch(() => {
 			setMovies([]);
 			setPage(1);

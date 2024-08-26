@@ -21,12 +21,15 @@ export const availableLanguages = [
 function createFiltersStore() {
 	const [year, setYear] = createSignal(availableYears[0]);
 	const [language, setLanguage] = createSignal(availableLanguages[0].value);
+	const [shouldShowOnlyPopular, setShouldShowOnlyPopular] = createSignal(true);
 
 	return {
 		year,
 		setYear,
 		language,
 		setLanguage,
+		shouldShowOnlyPopular,
+		setShouldShowOnlyPopular,
 	};
 }
 
