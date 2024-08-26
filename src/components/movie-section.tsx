@@ -14,10 +14,7 @@ export function MovieSection(): JSX.Element {
 				when={ !loading() }
 				fallback={ <Loader/> }
 			>
-				<Show
-					when={ movie() }
-					fallback={ <p>No more movies</p> }
-				>
+				<Show when={ movie() }>
 					{ (m) => <MovieCard movie={ m() } />}
 				</Show>
 			</Show>

@@ -3,7 +3,13 @@ import { type JSX } from 'solid-js';
 import { moviesStore } from '../stores/movies';
 
 export function PickerSection(): JSX.Element {
-	const { loadNextMovie, loadPrevMovie, loading } = moviesStore;
+	const {
+		loadNextMovie,
+		loadPrevMovie,
+		loading,
+		cantBack,
+		cantNext,
+	} = moviesStore;
 
 	return (
 		<section>
@@ -11,7 +17,7 @@ export function PickerSection(): JSX.Element {
 				<button
 					class='secondary'
 					onClick={ loadPrevMovie }
-					disabled={ loading() }
+					disabled={ loading() || cantBack() }
 				>
 					Back
 				</button>
@@ -24,7 +30,7 @@ export function PickerSection(): JSX.Element {
 				<button
 					class='secondary'
 					onClick={ loadNextMovie }
-					disabled={ loading() }
+					disabled={ loading() || cantNext() }
 				>
 					Next
 				</button>

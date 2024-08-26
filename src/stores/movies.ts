@@ -1,5 +1,10 @@
-import { createCachedResource } from 'solid-cached-resource';
-import { createSignal, createRoot, batch } from "solid-js";
+import {
+	createSignal,
+	createRoot,
+	batch,
+	createEffect,
+	createResource,
+} from "solid-js";
 
 export interface Movie {
 	id: number;
@@ -7,8 +12,6 @@ export interface Movie {
 	overview: string;
 	poster_path: string | null;
 }
-
-const pageSizeCache: Record<number, number> = {};
 
 function makePosterURL(posterPath: string): string {
 	return `https://image.tmdb.org/t/p/w300${posterPath}`;
@@ -26,9 +29,11 @@ function patchPosterURL(movie: Movie): Movie {
 async function fetchMovies(page: number): Promise<Movie[]> {
 	const url = new URL('https://api.themoviedb.org/3/discover/movie');
 
-	url.searchParams.append('year', '1990');
 	url.searchParams.append('page', String(page));
-	url.searchParams.append('vote_average.gte', '10');
+	url.searchParams.append('primary_release_year', '1990');
+	url.searchParams.append('sort_by', 'vote_count.desc');
+	url.searchParams.append('vote_count.gte', '500');
+	// url.searchParams.append('language', 'ru-RU');
 
 	const response = await fetch(
 		url,
@@ -37,59 +42,60 @@ async function fetchMovies(page: number): Promise<Movie[]> {
 
 	const data = await response.json();
 
-	pageSizeCache[page] = data.results.length;
-
 	return data.results.map(patchPosterURL);
 }
 
 function createMoviesStore() {
 	const [page, setPage] = createSignal(1);
-	const [movies] = createCachedResource(
+
+	const [moviesOnPage] = createResource(
 		page,
-		fetchMovies,
-		{ refetchOnMount: false }
+		fetchMovies
 	);
+
+	const [movies, setMovies] = createSignal<Movie[]>([]);
+
+	createEffect(() => {
+		const moviesToAdd = moviesOnPage();
+
+		if (
+			moviesOnPage.loading
+			|| moviesToAdd === undefined
+			|| moviesToAdd.length === 0
+		) {
+			return;
+		}
+
+		setMovies(m => m.concat(moviesToAdd));
+	})
 
 	const [index, setIndex] = createSignal(0);
 
 	const incrementPage = () => setPage(p => ++p);
-	const decrementPage = () => setPage(p => --p);
 
 	const loadNextMovie = () => {
-		if (!movie()) {
-			return;
-		}
-
 		const nextIndex = index() + 1;
 
-		const currentMovies = movies();
+		const shouldIncrementPage = nextIndex === movies().length;
 
-		if (!currentMovies) {
+		if (shouldIncrementPage && moviesOnPage()?.length === 0) {
 			return;
 		}
 
-		if (nextIndex === currentMovies.length) {
-			return batch(() => {
-				setIndex(0);
+		return batch(() => {
+			if (shouldIncrementPage) {
 				incrementPage();
-			})
-		}
+			}
 
-		setIndex(nextIndex);
+			setIndex(nextIndex);
+		});
 	};
 
 	const loadPrevMovie = () => {
 		const prevIndex = index() - 1;
 
 		if (prevIndex === -1) {
-			if (page() === 1) {
-				return;
-			}
-
-			return batch(() => {
-				setIndex((pageSizeCache[page() - 1]) - 1);
-				decrementPage();
-			})
+			return;
 		}
 
 		setIndex(prevIndex);
@@ -97,13 +103,24 @@ function createMoviesStore() {
 
 	const movie = (): Movie | undefined => movies()[index()];
 
-	const loading = () => movies.loading;
+	const loading = () => moviesOnPage.loading;
+
+	createEffect(() => {
+		if (movie() === undefined && !loading()) {
+			loadPrevMovie();
+		}
+	});
+
+	const cantBack = () => index() === 0;
+	const cantNext = () => index() === movies().length - 1 && moviesOnPage()?.length === 0;
 
 	return {
 		movie,
 		loadNextMovie,
 		loadPrevMovie,
 		loading,
+		cantBack,
+		cantNext,
 	};
 }
 

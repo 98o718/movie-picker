@@ -8,9 +8,6 @@ dependencies:
   '@picocss/pico':
     specifier: ^2.0.6
     version: 2.0.6
-  solid-cached-resource:
-    specifier: ^0.5.6
-    version: 0.5.6
   solid-js:
     specifier: ^1.8.11
     version: 1.8.11
@@ -1325,10 +1322,6 @@ packages:
   /seroval@1.0.4:
     resolution: {integrity: sha512-qQs/N+KfJu83rmszFQaTxcoJoPn6KNUruX4KmnmyD0oZkUoiNvJ1rpdYKDf4YHM05k+HOgCxa3yvf15QbVijGg==}
     engines: {node: '>=10'}
-
-  /solid-cached-resource@0.5.6:
-    resolution: {integrity: sha512-lc7UJsqzuotjTwqdc/kf2ft1lu1xQvKJDkvg188waDSkUfLATikr/55xk1w1ZTXWTDejHQ1rkih8KQ5G/uCVIg==}
-    dev: false
 
   /solid-devtools@0.30.0(solid-js@1.8.11)(vite@5.0.11):
     resolution: {integrity: sha512-icQr7jEIZ0rgJcIAJOaIIKOzq+BDx9G1Ok+mPJBaxI0RPkeea3xJ7CqrKNQT8oYB5DWXgdu1r8D2SA29+bxGSw==}
