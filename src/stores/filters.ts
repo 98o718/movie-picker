@@ -1,9 +1,6 @@
 import { createRoot, createSignal } from 'solid-js';
 
-export const enum Language {
-	RUS = 'ru-Ru',
-	ENG = 'en-Us',
-}
+import { Language } from '../api/movies-api';
 
 const minYear = 1920;
 const maxYear = new Date().getFullYear();

@@ -2,10 +2,11 @@ import { For, type JSX } from 'solid-js';
 
 import {
 	filtersStore,
-	Language,
 	availableLanguages,
 	availableYears,
 } from '../stores/filters';
+
+import { Language } from '../api/movies-api';
 
 export function FiltersSection(): JSX.Element {
 	const {

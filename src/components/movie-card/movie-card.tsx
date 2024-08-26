@@ -1,6 +1,6 @@
 import { Show, type JSX } from 'solid-js';
 
-import { type Movie } from '../../stores/movies';
+import { type Movie } from '../../api/movies-api';
 
 import styles from './movie-card.module.scss';
 
