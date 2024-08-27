@@ -4,9 +4,9 @@ import {
 	filtersStore,
 	availableLanguages,
 	availableYears,
-} from '../stores/filters';
+} from '@stores/filters';
 
-import { Language } from '../api/movies-api';
+import { Language } from '@api/movies-api';
 
 export function FiltersSection(): JSX.Element {
 	const {

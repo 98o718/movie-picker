@@ -1,9 +1,9 @@
 import { Show, type JSX } from 'solid-js';
 
-import { moviesStore } from '../stores/movies';
+import { moviesStore } from '@stores/movies';
 
-import { Loader } from './loader';
-import { MovieCard } from './movie-card';
+import { Loader } from '@components/loader';
+import { MovieCard } from '@components/movie-card';
 
 export function MovieSection(): JSX.Element {
 	const { movie, loading } = moviesStore;

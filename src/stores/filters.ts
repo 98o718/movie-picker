@@ -1,7 +1,7 @@
 import { createRoot, createSignal } from 'solid-js';
 import { makePersisted } from '@solid-primitives/storage';
 
-import { Language } from '../api/movies-api';
+import { Language } from '@api/movies-api';
 
 const minYear = 1920;
 const maxYear = new Date().getFullYear();

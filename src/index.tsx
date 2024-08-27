@@ -1,9 +1,9 @@
 /* @refresh reload */
 import { render } from 'solid-js/web';
 
-import './index.scss';
+import { App } from '@components/app';
 
-import { App } from './components/app';
+import './index.scss';
 
 const root = document.getElementById('root');
 

@@ -8,9 +8,8 @@ import {
 	createComputed,
 } from "solid-js";
 
-import { fetchMovies, Movie } from '../api/movies-api';
-
-import { filtersStore } from './filters';
+import { fetchMovies, Movie } from '@api/movies-api';
+import { filtersStore } from '@stores/filters';
 
 function createMoviesStore() {
 	const [page, setPage] = createSignal(1);

@@ -1,7 +1,7 @@
 import { type JSX } from 'solid-js';
 
-import { moviesStore } from '../../stores/movies';
-import { listStore } from '../../stores/list';
+import { moviesStore } from '@stores/movies';
+import { listStore } from '@stores/list';
 
 import styles from './picker-section.module.scss';
 
