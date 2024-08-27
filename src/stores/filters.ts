@@ -1,4 +1,5 @@
 import { createRoot, createSignal } from 'solid-js';
+import { makePersisted } from '@solid-primitives/storage';
 
 import { Language } from '../api/movies-api';
 
@@ -16,9 +17,9 @@ export const availableLanguages = [
 ];
 
 function createFiltersStore() {
-	const [year, setYear] = createSignal(availableYears[0]);
-	const [language, setLanguage] = createSignal(availableLanguages[0].value);
-	const [shouldShowOnlyPopular, setShouldShowOnlyPopular] = createSignal(true);
+	const [year, setYear] = makePersisted(createSignal(availableYears[0]));
+	const [language, setLanguage] = makePersisted(createSignal(availableLanguages[0].value));
+	const [shouldShowOnlyPopular, setShouldShowOnlyPopular] = makePersisted(createSignal(true));
 
 	return {
 		year,
