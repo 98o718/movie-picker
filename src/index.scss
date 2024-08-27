@@ -11,3 +11,13 @@
 
 	$theme-color: "jade"
 );
+
+:root {
+	--danger-color: #D93526;
+	--minor-color: #525F7A;
+}
+
+/* Fix for Pico CSS */
+[role=group] {
+	gap: 1px;
+}

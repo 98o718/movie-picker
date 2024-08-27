@@ -1,0 +1,5 @@
+{
+	"private": true,
+	"main": "list-section",
+	"typings": "list-section.tsx"
+}

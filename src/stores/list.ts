@@ -26,12 +26,18 @@ function createListStore() {
 		)
 	};
 
-	const get = () => Array.from(list());
+	const get = () => Array.from(list()).map((tmdbID: number) => ({ tmdbID }));
+
+	const isEmpty = () => list().size === 0;
+
+	const clear = () => setList(new Set<number>());
 
 	return {
 		toggle,
 		has,
 		get,
+		clear,
+		isEmpty,
 	};
 }
 

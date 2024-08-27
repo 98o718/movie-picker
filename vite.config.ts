@@ -9,6 +9,7 @@ export default defineConfig({
 			'@api': path.resolve(__dirname, './src/api'),
 			'@components': path.resolve(__dirname, './src/components'),
 			'@stores': path.resolve(__dirname, './src/stores'),
+			'@core': path.resolve(__dirname, './src/core'),
 		}
 	},
 	plugins: [

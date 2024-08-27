@@ -32,6 +32,7 @@ export function FiltersSection(): JSX.Element {
 
 	return (
 		<section>
+			<h6>Filters</h6>
 			<div role='group'>
 				<select name="year" aria-label="Select year..." onChange={ handleYearChange }>
 					<option disabled>

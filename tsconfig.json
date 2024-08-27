@@ -14,7 +14,8 @@
 		"paths": {
 			"@api/*": ["./src/api/*"],
 			"@components/*": ["./src/components/*"],
-			"@stores/*": ["./src/stores/*"]
+			"@stores/*": ["./src/stores/*"],
+			"@core/*": ["./src/core/*"]
 		}
 	}
 }

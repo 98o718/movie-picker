@@ -4,6 +4,7 @@ import { Header } from '@components/header';
 import { MovieSection } from '@components/movie-section';
 import { PickerSection } from '@components/picker-section';
 import { FiltersSection } from '@components/filters-section';
+import { ListSection } from '@components/list-section';
 
 export function App(): JSX.Element {
 
@@ -15,6 +16,9 @@ export function App(): JSX.Element {
 				<PickerSection/>
 				<MovieSection/>
 			</main>
+			<footer>
+				<ListSection/>
+			</footer>
 		</>
 	);
 };

@@ -1,14 +1,11 @@
-$redColor: #D93526;
-$grayColor: #525F7A;
-
 .unpickButton {
-	background: $redColor;
-	border-color: $redColor;
+	background: var(--danger-color);
+	border-color: var(--danger-color);
 }
 
 .secondaryButton {
-	background: $grayColor;
-	border-color: $grayColor;
+	background: var(--minor-color);
+	border-color: var(--minor-color);
 }
 
 .buttonContent {
